@@ -1,7 +1,9 @@
 {
-  "name": "my-app",
+  "name": "Hello React!",
   "version": "0.1.0",
   "private": true,
+  "description": "Creating this project as one of my GCI Task",
+  "repository": "https://github.com/PrathameshMutkure/my-app",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
