@@ -1,0 +1,20 @@
+{
+  "categories": [
+    {
+      "id": "cty01",
+      "categoryName": "petrol-vehical"
+    },
+    {
+      "id": "cty02",
+      "categoryName": "diesal-vehical"
+    },
+    {
+      "id": "cty03",
+      "categoryName": "electric-vehical"
+    },
+    {
+      "id": "cty04",
+      "categoryName": "hybrid-vehical"
+    }
+  ]
+}

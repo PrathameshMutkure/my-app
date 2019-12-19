@@ -1,0 +1,64 @@
+{
+  "products": [
+    {
+      "id": "P001",
+      "categoryId": "cty01",
+      "name": "Tata Nano"
+    },
+    {
+      "id": "P002",
+      "categoryId": "cty02",
+      "name": "Maruti Swift"
+    },
+    {
+      "id": "P003",
+      "categoryId": "cty03",
+      "name": "Tesla Model S"
+    },
+    {
+      "id": "P004",
+      "categoryId": "cty04",
+      "name": "Honda Civic Hybrid"
+    },
+    {
+      "id": "P005",
+      "categoryId": "cty01",
+      "name": "Ford EcoSport"
+    },
+    {
+      "id": "P006",
+      "categoryId": "cty02",
+      "name": "Ford Figo"
+    },
+    {
+      "id": "P007",
+      "categoryId": "cty03",
+      "name": "Nissan Leaf"
+    },
+    {
+      "id": "P008",
+      "categoryId": "cty04",
+      "name": "Toyota Prius V"
+    },
+    {
+      "id": "P009",
+      "categoryId": "cty01",
+      "name": "Honda City"
+    },
+    {
+      "id": "P010",
+      "categoryId": "cty02",
+      "name": "hyundai Elite"
+    },
+    {
+      "id": "P011",
+      "categoryId": "cty03",
+      "name": "Tesla Model X"
+    },
+    {
+      "id": "P012",
+      "categoryId": "cty04",
+      "name": "Ford Fusion Hybrid"
+    }
+  ]
+}
