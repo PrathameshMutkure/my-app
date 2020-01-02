@@ -9,8 +9,9 @@ const PORT = 3000;
 
 // Getting data from json files
 const packageData = require('./package.json');
-const categoryData = require('./src/data/categories.json');
-const productData = require('./src/data/products.json');
+
+// Importing dataService.js file
+const dataService = require('./dataService');
 
 // create a route for the app
 app.get('/', (req, res) => {
@@ -24,28 +25,7 @@ app.get('/info', (req, res) => {
 
 // route for displaying all products
 app.get('/products/all', (req, res) => {
-
-  const jsonOutputObject = {
-    products: []
-  };
-
-  for (let product of productData.products) {
-
-    // Deep copying to prevent changes in original JSON object in next step
-    const productToBeInserted = JSON.parse(JSON.stringify(product));
-
-    // Adding category name to product
-    for (let category of categoryData.categories) {
-      if (product.categoryId === category.id) {
-        productToBeInserted.categoryName = category.categoryName;
-        break;
-      }
-    }
-
-    jsonOutputObject.products.push(productToBeInserted);
-  }
-
-  res.send(jsonOutputObject);
+  res.send({ products: dataService.getCombinedProductMap });
 });
 
 // Getting product info from its ID
@@ -53,36 +33,22 @@ app.get('/product/:id', (req, res) => {
 
   const userInput = req.params.id;
   let productId;
-  let jsonOutputObject = null;
 
   // Generating valid ID and returning error message when ID is invalid
   if (userInput < 1) {
     res.send('Invalid product ID');
     return;
   } else {
-    productId = `P${userInput.padStart(3, '0')}`
+    productId = `P${userInput.padStart(3, '0')}`;
   }
 
-  for (let product of productData.products) {
-    if (product.id === productId) {
-      jsonOutputObject = product;
-      break;
-    }
-  }
+  const productToBeReturned = dataService.getCombinedProductMap[productId];
 
-  // Checking for null at the end would cause NullPointerException when trying to get the categoryName
-  if (jsonOutputObject == null) {
+  if (!productToBeReturned) {
     res.send('Product not found!');
-    return;
+  } else {
+    res.send(productToBeReturned);
   }
-
-  for (let category of categoryData.categories) {
-    if (jsonOutputObject.categoryId === category.id) {
-      jsonOutputObject.categoryName = category.categoryName;
-    }
-  }
-
-  res.send(jsonOutputObject);
 });
 
 // Getting all the products under a category based on category's ID
@@ -90,41 +56,36 @@ app.get('/category/:ctyId', (req, res) => {
 
   const userInput = req.params.ctyId;
   let categoryId;
-  let categoryNameVal;
 
   // Generating valid ID and returning error message when ID is invalid
   if (userInput < 1) {
-    res.send('Invalid category ID')
+    res.send('Invalid category ID');
     return;
   } else {
-    categoryId = `cty${userInput.padStart(2, '0')}`
+    categoryId = `cty${userInput.padStart(2, '0')}`;
   }
 
-  // Getting category name
-  for (let category of categoryData.categories) {
-    if (category.id === categoryId) {
-      categoryNameVal = category.categoryName;
-      break;
-    }
-  }
-
-  const jsonOutputObject = {
-    category: categoryId,
-    categoryName: categoryNameVal,
-    products: []
+  const jsonObjectToBeReturned = {
+    ctyId: categoryId,
+    categoryName: dataService.getCategories[categoryId],
+    products: {},
   };
 
-  for (let product of productData.products) {
+  for (product of Object.values(dataService.getCombinedProductMap)) {
     if (product.categoryId === categoryId) {
-      jsonOutputObject.products.push(product)
+      jsonObjectToBeReturned.products[product.id] = product;
     }
   }
 
-  if (jsonOutputObject.products.length === 0) {
+  if (jsonObjectToBeReturned.products.size === 0) {
     res.send('Category not found!');
   } else {
-    res.send(jsonOutputObject);
+    res.send(jsonObjectToBeReturned);
   }
+});
+
+app.get('/com', (req, res) => {
+  res.send(dataService.getCombinedProductMap);
 });
 
 // make the server listen to requests
